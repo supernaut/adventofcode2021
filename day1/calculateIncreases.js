@@ -1,13 +1,6 @@
-module.exports = (values) => {
-  let increases = 0;
-
+module.exports = (values) =>
   values
     .filter((row) => !!row)
-    .map((row, index, all) => {
-      if (parseInt(`${row}`, 10) > parseInt(all[index - 1])) {
-        increases += 1;
-      }
-    });
-
-  return increases;
-};
+    .map((row) => parseInt(row, 10))
+    .map((value, index, all) => value > all[index - 1] || 0)
+    .reduce((a, b) => a + b, 0);

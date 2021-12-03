@@ -2,7 +2,7 @@ const fs = require("fs");
 const readline = require("readline");
 const path = require("path");
 
-async function processData() {
+const processData = async () => {
   // Open filestream to input
   const fileStream = fs.createReadStream(path.resolve(__dirname, "input"));
 
@@ -43,6 +43,6 @@ async function processData() {
 
   // Multiply values in output
   console.log(gamma * epsilon);
-}
+};
 
 processData();

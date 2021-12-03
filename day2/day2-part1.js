@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const data = fs.readFileSync(path.resolve(__dirname, "input.txt"), "utf8");
+const data = fs.readFileSync(path.resolve(__dirname, "input"), "utf8");
 
 const position = {
   horizontal: 0,

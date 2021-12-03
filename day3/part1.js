@@ -15,14 +15,12 @@ rows.forEach((row) => {
     });
 });
 
-const getValue = (a, b) =>
-  parseInt(
-    values.map((value) => (value / rows.length > 0.5 ? a : b)).join(""),
-    2
-  );
+const binary = values
+  .map((value) => (value / rows.length > 0.5 ? 1 : 0))
+  .join("");
 
-const gamma = getValue(1, 0);
+const gamma = parseInt(binary, 2);
 
-const epsilon = getValue(0, 1);
+const epsilon = ~gamma + Math.pow(2, binary.length);
 
 console.log(gamma * epsilon);

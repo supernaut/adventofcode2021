@@ -1,26 +1,48 @@
 const fs = require("fs");
+const readline = require("readline");
 const path = require("path");
-const data = fs.readFileSync(path.resolve(__dirname, "input"), "utf8");
 
-const values = [];
+async function processData() {
+  // Open filestream to input
+  const fileStream = fs.createReadStream(path.resolve(__dirname, "input"));
 
-const rows = data.split("\n").filter((row) => !!row);
+  // create readline interface
+  const rl = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity, // Line break agnostic
+  });
 
-rows.forEach((row) => {
-  row
-    .split("")
-    .map((value) => parseInt(value, 10))
-    .forEach((digit, index) => {
-      values[index] = digit + (values[index] || 0);
-    });
-});
+  // Holder for column values
+  const values = [];
 
-const binary = values
-  .map((value) => (value / rows.length > 0.5 ? 1 : 0))
-  .join("");
+  // Length of actual values, not lines
+  let length = 0;
 
-const gamma = parseInt(binary, 2);
+  // Loop over lines
+  for await (const line of rl) {
+    // Only parse if line isn't empty
+    if (!!line) {
+      // Loop over each digit and tick up column counter
+      [...line].forEach((digit, index) => {
+        values[index] = parseInt(digit, 10) + (values[index] || 0);
+      });
 
-const epsilon = ~gamma + Math.pow(2, binary.length);
+      // Add to length of lines
+      length += 1;
+    }
+  }
 
-console.log(gamma * epsilon);
+  // Loop over columns and create binary value from majority value
+  const binary = values.map((value) => (value / length > 0.5 ? 1 : 0)).join("");
+
+  // Parse binary to decimal
+  const gamma = parseInt(binary, 2);
+
+  // Invert binary value to get epsilon
+  const epsilon = ~gamma + Math.pow(2, binary.length);
+
+  // Multiply values in output
+  console.log(gamma * epsilon);
+}
+
+processData();

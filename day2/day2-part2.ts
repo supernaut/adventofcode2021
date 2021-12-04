@@ -1,10 +1,11 @@
-const fs = require("fs");
-const path = require("path");
-const data = fs.readFileSync(path.resolve(__dirname, "input"), "utf8");
+import { readFileSync } from "fs";
+import { resolve } from "path";
+const data = readFileSync(resolve(__dirname, "input"), "utf8");
 
 const position = {
   horizontal: 0,
   depth: 0,
+  aim: 0,
 };
 
 data
@@ -16,12 +17,13 @@ data
     switch (direction) {
       case "forward":
         position.horizontal += value;
+        position.depth += position.aim * value;
         break;
       case "down":
-        position.depth += value;
+        position.aim += value;
         break;
       case "up":
-        position.depth -= value;
+        position.aim -= value;
         break;
     }
   });

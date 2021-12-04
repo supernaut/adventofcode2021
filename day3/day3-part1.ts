@@ -1,19 +1,19 @@
-const fs = require("fs");
-const readline = require("readline");
-const path = require("path");
+import { createReadStream } from "fs";
+import { resolve } from "path";
+import { createInterface } from "readline";
 
 const processData = async () => {
   // Open filestream to input
-  const fileStream = fs.createReadStream(path.resolve(__dirname, "input"));
+  const fileStream = createReadStream(resolve(__dirname, "input"));
 
   // create readline interface
-  const rl = readline.createInterface({
+  const rl = createInterface({
     input: fileStream,
     crlfDelay: Infinity, // Line break agnostic
   });
 
   // Holder for column values
-  const values = [];
+  const values: number[] = [];
 
   // Length of actual values, not lines
   let length = 0;
@@ -21,7 +21,7 @@ const processData = async () => {
   // Loop over lines
   for await (const line of rl) {
     // Only parse if line isn't empty
-    if (!!line) {
+    if (line) {
       // Loop over each digit and tick up column counter
       [...line].forEach((digit, index) => {
         values[index] = parseInt(digit, 10) + (values[index] || 0);

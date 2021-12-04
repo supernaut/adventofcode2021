@@ -1,48 +1,23 @@
-import { createReadStream } from "fs";
-import { resolve } from "path";
-import { createInterface } from "readline";
+import { input } from "./data";
 
-const processData = async () => {
-  // Open filestream to input
-  const fileStream = createReadStream(resolve(__dirname, "input"));
+const values: number[] = [];
 
-  // create readline interface
-  const rl = createInterface({
-    input: fileStream,
-    crlfDelay: Infinity, // Line break agnostic
+input.forEach((line) => {
+  // Loop over each digit and tick up column counter
+  [...line].forEach((digit, index) => {
+    values[index] = parseInt(digit, 10) + (values[index] || 0);
   });
+});
+// Loop over columns and create binary value from majority value
+const binary = values
+  .map((value: number) => (value / input.length > 0.5 ? 1 : 0))
+  .join("");
 
-  // Holder for column values
-  const values: number[] = [];
+// Parse binary to decimal
+const gamma = parseInt(binary, 2);
 
-  // Length of actual values, not lines
-  let length = 0;
+// Invert binary value to get epsilon
+const epsilon = ~gamma + Math.pow(2, binary.length);
 
-  // Loop over lines
-  for await (const line of rl) {
-    // Only parse if line isn't empty
-    if (line) {
-      // Loop over each digit and tick up column counter
-      [...line].forEach((digit, index) => {
-        values[index] = parseInt(digit, 10) + (values[index] || 0);
-      });
-
-      // Add to length of lines
-      length += 1;
-    }
-  }
-
-  // Loop over columns and create binary value from majority value
-  const binary = values.map((value) => (value / length > 0.5 ? 1 : 0)).join("");
-
-  // Parse binary to decimal
-  const gamma = parseInt(binary, 2);
-
-  // Invert binary value to get epsilon
-  const epsilon = ~gamma + Math.pow(2, binary.length);
-
-  // Multiply values in output
-  console.log(gamma * epsilon);
-};
-
-processData();
+// Multiply values in output
+console.log(gamma * epsilon);

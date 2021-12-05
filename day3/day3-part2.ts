@@ -1,23 +1,33 @@
 import { input } from "./data";
 
-const values: number[] = [];
+const reduceData = (
+  input: string[],
+  mode: "most" | "least" = "most",
+  position = 0,
+  length = 12
+): string => {
+  if (input.length === 1) {
+    return input[0];
+  } else {
+    const filteredOnes = input
+      .map((value) => value.charAt(position))
+      .filter((value) => value === "1");
+    const mostPopular = filteredOnes.length >= input.length / 2 ? "1" : "0";
+    const subset = input.filter((value) =>
+      mode === "most"
+        ? value.charAt(position) === mostPopular
+        : value.charAt(position) !== mostPopular
+    );
+    return reduceData(subset, mode, position + 1, length);
+  }
+};
 
-input.forEach((line) => {
-  // Loop over each digit and tick up column counter
-  [...line].forEach((digit, index) => {
-    values[index] = parseInt(digit, 10) + (values[index] || 0);
-  });
-});
-// Loop over columns and create binary value from majority value
-const binary = values
-  .map((value: number) => (value / input.length > 0.5 ? 1 : 0))
-  .join("");
+const oxygenGeneratorRating = reduceData(input, "most");
+const co2ScrubberRating = reduceData(input, "least");
 
-// Parse binary to decimal
-const gamma = parseInt(binary, 2);
+const oxygenGeneratorRatingDecimal = parseInt(oxygenGeneratorRating, 2);
+const co2ScrubberRatingDecimal = parseInt(co2ScrubberRating, 2);
 
-// Invert binary value to get epsilon
-const epsilon = ~gamma + Math.pow(2, binary.length);
+const solution = oxygenGeneratorRatingDecimal * co2ScrubberRatingDecimal;
 
-// Multiply values in output
-console.log(gamma * epsilon);
+console.log(solution);

@@ -1,10 +1,10 @@
 import { BingoBoard, input } from "./data";
+import { additionReducer, nullFilter } from "../shared/helpers";
 import { solution, title } from "../shared/output";
 
-import { additionReducer } from "../shared/helpers";
 import chalk from "chalk";
 
-title(4, 1);
+title(4, 2);
 
 const { boards, numbers } = input;
 
@@ -23,7 +23,7 @@ const renderBoard = (board: BingoBoard, picked: number[]): void => {
 
 const checkBoard = (board: BingoBoard, numbers: number[]): boolean => {
   const checkNumbers = (value: number): boolean => numbers.includes(value);
-  for (let i = 0; i < 5; i += 1) {
+  for (let i = 0; i < board.length; i += 1) {
     if (board[i].every(checkNumbers)) {
       return true;
     }
@@ -46,23 +46,27 @@ const calculateScore = (board: BingoBoard, drawnNumbers: number[]): number => {
 
 const drawNumbers = (input: number[], boards: BingoBoard[]): number => {
   let drawnNumbers: number[] = [];
-  let winner: BingoBoard;
-  let score = -1;
-  input.some((_value, index, array) => {
+  const winners: { board: BingoBoard; numbers: number[] }[] = [];
+  input.forEach((_value, index, array) => {
     drawnNumbers = array.slice(0, index + 1);
-    if (drawnNumbers.length) {
-      boards.some((board) => {
-        if (checkBoard(board, drawnNumbers)) {
-          renderBoard(board, drawnNumbers);
-          winner = board;
-          score = calculateScore(board, drawnNumbers);
-          return true;
-        }
-      });
-    }
-    return !!winner;
+
+    boards.forEach((board) => {
+      if (
+        !winners.filter((winner) => winner.board === board).length &&
+        checkBoard(board, drawnNumbers)
+      ) {
+        winners.push({ board, numbers: drawnNumbers });
+      }
+    });
   });
-  return score;
+
+  const lastWinner = [...winners].pop();
+  if (lastWinner) {
+    renderBoard(lastWinner.board, lastWinner.numbers);
+    return calculateScore(lastWinner.board, lastWinner.numbers);
+  } else {
+    return 0;
+  }
 };
 
 const score = drawNumbers(numbers, boards);

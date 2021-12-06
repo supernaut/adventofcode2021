@@ -1,4 +1,8 @@
+import { solution, title } from "../shared/output";
+
 import { input } from "./data";
+
+title(3, 1);
 
 const values: number[] = [];
 
@@ -20,4 +24,5 @@ const gamma = parseInt(binary, 2);
 const epsilon = ~gamma + Math.pow(2, binary.length);
 
 // Multiply values in output
-console.log(gamma * epsilon);
+
+solution(gamma * epsilon);

@@ -1,8 +1,10 @@
-import { input } from "./data";
-import { additionReducer, mapIncreaseCheck } from "./day1-shared";
+import { solution, title } from "../shared/output";
 
-console.log(input.length);
+import { additionReducer } from "../shared/helpers";
+import { input } from "./data";
+import { mapIncreaseCheck } from "./day1-shared";
 
 const increases = input.map(mapIncreaseCheck).reduce(additionReducer, 0);
 
-console.log(increases);
+title(1, 1);
+solution(increases);

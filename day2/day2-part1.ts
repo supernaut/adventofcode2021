@@ -1,3 +1,5 @@
+import { solution, title } from "../shared/output";
+
 import { readFileSync } from "fs";
 import { resolve } from "path";
 const data = readFileSync(resolve(__dirname, "input"), "utf8");
@@ -26,4 +28,5 @@ data
     }
   });
 
-console.log(position.horizontal * position.depth);
+title(2, 1);
+solution(position.horizontal * position.depth);

@@ -1,5 +1,3 @@
-export const nullFilter = (row: string): boolean => !!row?.trim();
-export const additionReducer = (a: number, b: number): number => a + b;
 export const mapStringToNumber = (row: string): number => parseInt(row, 10);
 export const mapIncreaseCheck = (
   value: number,

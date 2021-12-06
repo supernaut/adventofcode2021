@@ -1,4 +1,8 @@
+import { solution, title } from "../shared/output";
+
 import { input } from "./data";
+
+title(3, 2);
 
 const reduceData = (
   input: string[],
@@ -28,6 +32,4 @@ const co2ScrubberRating = reduceData(input, "least");
 const oxygenGeneratorRatingDecimal = parseInt(oxygenGeneratorRating, 2);
 const co2ScrubberRatingDecimal = parseInt(co2ScrubberRating, 2);
 
-const solution = oxygenGeneratorRatingDecimal * co2ScrubberRatingDecimal;
-
-console.log(solution);
+solution(oxygenGeneratorRatingDecimal * co2ScrubberRatingDecimal);

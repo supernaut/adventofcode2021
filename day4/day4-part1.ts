@@ -34,8 +34,17 @@ const checkBoard = (board: BingoBoard, numbers: number[]): boolean => {
   return false;
 };
 
+const calculateScore = (board: BingoBoard, drawnNumbers: number[]): number => {
+  const lastDrawn = [...drawnNumbers].pop() || 0;
+  const restSum = board
+    .flat()
+    .filter((value) => !drawnNumbers.includes(value))
+    .reduce(additionReducer, 0);
+
+  return restSum && lastDrawn ? restSum * lastDrawn : 0;
+};
+
 const drawNumbers = (input: number[], boards: BingoBoard[]): number => {
-  let lastDrawn;
   let drawnNumbers: number[] = [];
   let winner: BingoBoard;
   let score = -1;
@@ -45,28 +54,17 @@ const drawNumbers = (input: number[], boards: BingoBoard[]): number => {
       boards.some((board) => {
         if (checkBoard(board, drawnNumbers)) {
           renderBoard(board, drawnNumbers);
-          lastDrawn = [...drawnNumbers].pop() || 0;
           winner = board;
-          const restSum = board
-            .flat()
-            .filter((value) => !drawnNumbers.includes(value))
-            .reduce(additionReducer, 0);
-
-          if (restSum && lastDrawn) {
-            score = restSum * lastDrawn;
-          }
+          score = calculateScore(board, drawnNumbers);
           return true;
         }
       });
     }
     return !!winner;
   });
-  console.log("Last drawn", lastDrawn);
-  console.log("");
   return score;
 };
 
 const score = drawNumbers(numbers, boards);
-if (score) {
-  solution(score);
-}
+
+solution(score);

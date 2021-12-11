@@ -16,9 +16,7 @@ const points = data
     const intervalX = diffX / (steps + 1);
     const intervalY = diffY / (steps + 1);
 
-    const fromRaw = `${from.x},${from.y}`;
-
-    line.push(fromRaw);
+    line.push(`${from.x},${from.y}`);
 
     for (let i = 1; i <= steps; i++) {
       const x =
@@ -33,22 +31,20 @@ const points = data
           : from.y < to.y
           ? from.y + intervalY * i
           : from.y - intervalY * i;
-      const stepRaw = `${x},${y}`;
-      line.push(stepRaw);
+      line.push(`${x},${y}`);
     }
-    const toRaw = `${to.x},${to.y}`;
-    line.push(toRaw);
+    line.push(`${to.x},${to.y}`);
 
     return line;
   });
-
-const uniqueFilter = (value: string, index: number, array: string[]) =>
-  array.indexOf(value) === index;
 
 const count = points
   .map((point) => points.filter((value) => value === point))
   .filter((value) => value.length > 1)
   .map((value) => value[0])
-  .filter(uniqueFilter).length;
+  .filter(
+    (value: string, index: number, array: string[]) =>
+      array.indexOf(value) === index
+  ).length;
 
 solution(count);

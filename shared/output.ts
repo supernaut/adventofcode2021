@@ -22,20 +22,24 @@ export const solution = (
 
     if (seconds) {
       console.log(
-        chalk.green.dim("⏲️  Execution time"),
-        chalk.red(`${seconds} s`),
-        chalk.red(`${milliseconds} ms`)
+        `⏲️  ${chalk.green.dim("Execution time")} ${chalk.redBright(
+          "%d"
+        )}${chalk.red("s")} ${chalk.redBright("%d")}${chalk.red("ms")}`,
+        seconds,
+        milliseconds
       );
     } else if (milliseconds > 100) {
       console.log(
-        chalk.green.dim("⏲️  Execution time"),
-        chalk.yellow(`${milliseconds} ms`)
+        `⏲️  ${chalk.green.dim("Execution time")} ${chalk.yellowBright(
+          "%d"
+        )}${chalk.yellow("ms")}`,
+        milliseconds
       );
     } else {
       console.log(
         `⏲️  ${chalk.green.dim("Execution time")} ${chalk.greenBright(
           "%d"
-        )} ${chalk.green("ms")}`,
+        )}${chalk.green("ms")}`,
         milliseconds
       );
     }

@@ -16,6 +16,6 @@ First run `yarn` to install dependencies, then you can run the solutions with th
 
 Etc, etc...
 
-For development you can run the same solution with the dev script and it will reload on changes in the file:
+For development you can run the same solution with the `start` script and it will reload on changes in the file:
 
-`yarn dev day1/day1-part1.ts`
+`yarn start day1/day1-part1.ts`

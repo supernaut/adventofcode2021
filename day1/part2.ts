@@ -2,12 +2,12 @@ import { solution, title } from "../shared/output";
 
 import { input as data } from "./data";
 import { hrtime } from "process";
-import { solve } from "./day6-solution";
+import { solve } from "./solve";
 
 const start = hrtime();
 
-title(6, 1);
+title(1, 2);
 
-const count = solve(data, 80);
+const value = solve(data, 3);
 
-solution(count, hrtime(start));
+solution(value, hrtime(start));

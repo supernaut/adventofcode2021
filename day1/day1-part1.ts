@@ -1,10 +1,13 @@
 import { solution, title } from "../shared/output";
 
-import { additionReducer } from "../shared/helpers";
-import { input } from "./data";
-import { mapIncreaseCheck } from "./day1-shared";
+import { input as data } from "./data";
+import { hrtime } from "process";
+import { solve } from "./day1-solution";
 
-const increases = input.map(mapIncreaseCheck).reduce(additionReducer, 0);
+const start = hrtime();
 
 title(1, 1);
-solution(increases);
+
+const value = solve(data);
+
+solution(value, hrtime(start));

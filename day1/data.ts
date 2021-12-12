@@ -1,3 +1,13 @@
+import { readFileSync } from "fs";
+import { resolve } from "path";
+
+const parseData = (file: string): number[] =>
+  readFileSync(resolve(__dirname, file), "utf8")
+    .split("\n")
+    .map((value) => parseInt(value, 10));
+
+export const example = parseData("example");
+
 export const input: number[] = [
   123, 126, 130, 137, 140, 150, 155, 157, 173, 186, 201, 205, 234, 236, 237,
   252, 254, 258, 265, 266, 270, 278, 285, 289, 310, 332, 323, 349, 371, 372,

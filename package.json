@@ -4,7 +4,9 @@
   "description": "My solutions to [Advent of Code 2021](https://adventofcode.com/2021/).",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "yarn ts-node --transpile-only",
+    "start": "yarn ts-node-dev --transpile-only --respawn"
   },
   "repository": {
     "type": "git",

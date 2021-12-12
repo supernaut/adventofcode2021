@@ -1,50 +1,35 @@
+import { VentLine, input as data } from "./data";
 import { solution, title } from "../shared/output";
-import { input as data, VentLine } from "./data";
+
+import { hrtime } from "process";
 
 title(5, 1);
+const start = hrtime();
 
 const straightLineFilter = ({ from, to }: VentLine) =>
   from.x === to.x || from.y === to.y;
 
-const points = data
-  .filter(straightLineFilter)
-  .flatMap(({ from, to }: VentLine) => {
-    const line: string[] = [];
-    const diffX = Math.abs(from.x - to.x);
-    const diffY = Math.abs(from.y - to.y);
-    const steps = Math.max(diffX, diffY) - 1;
-    const intervalX = diffX / (steps + 1);
-    const intervalY = diffY / (steps + 1);
+const size = 1024;
+const arrayBuffer = new ArrayBuffer(size * size);
+const buffer = new Int8Array(arrayBuffer).fill(0);
 
-    line.push(`${from.x},${from.y}`);
+const getIndex = (x: number, y: number): number => x + y * size;
 
-    for (let i = 1; i <= steps; i++) {
-      const x =
-        from.x === to.x
-          ? from.x
-          : from.x < to.x
-          ? from.x + intervalX * i
-          : from.x - intervalX * i;
-      const y =
-        from.y === to.y
-          ? from.y
-          : from.y < to.y
-          ? from.y + intervalY * i
-          : from.y - intervalY * i;
-      line.push(`${x},${y}`);
-    }
-    line.push(`${to.x},${to.y}`);
+const filteredData = data.filter(straightLineFilter);
 
-    return line;
-  });
+for (let l = 0; l < filteredData.length; l += 1) {
+  const { from, to } = filteredData[l];
+  const steps = Math.max(Math.abs(from.x - to.x), Math.abs(from.y - to.y));
 
-const count = points
-  .map((point) => points.filter((value) => value === point))
-  .filter((value) => value.length > 1)
-  .map((value) => value[0])
-  .filter(
-    (value: string, index: number, array: string[]) =>
-      array.indexOf(value) === index
-  ).length;
+  for (let i = 0; i <= steps; i += 1) {
+    const x =
+      from.x === to.x ? from.x : from.x < to.x ? from.x + i : from.x - i;
+    const y =
+      from.y === to.y ? from.y : from.y < to.y ? from.y + i : from.y - i;
+    buffer[getIndex(x, y)]++;
+  }
+}
 
-solution(count);
+const count = buffer.filter((value) => value > 1).length;
+
+solution(count, hrtime(start));

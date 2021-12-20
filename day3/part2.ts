@@ -1,7 +1,8 @@
+import { hrtime } from "process";
 import { solution, title } from "../shared/output";
-
 import { input } from "./data";
 
+const start = hrtime();
 title(3, 2);
 
 const reduceData = (
@@ -32,4 +33,7 @@ const co2ScrubberRating = reduceData(input, "least");
 const oxygenGeneratorRatingDecimal = parseInt(oxygenGeneratorRating, 2);
 const co2ScrubberRatingDecimal = parseInt(co2ScrubberRating, 2);
 
-solution(oxygenGeneratorRatingDecimal * co2ScrubberRatingDecimal);
+solution(
+  oxygenGeneratorRatingDecimal * co2ScrubberRatingDecimal,
+  hrtime(start)
+);

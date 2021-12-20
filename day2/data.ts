@@ -7,6 +7,7 @@ export type Instruction = [Direction, number];
 
 const parseData = (file: string): Instruction[] =>
   readFileSync(resolve(__dirname, file), "utf8")
+    .trim()
     .split("\n")
     .filter((value) => !!value)
     .map((value) => {

@@ -1,12 +1,13 @@
-import { BingoBoard, input } from "./data";
-import { additionReducer, nullFilter } from "../shared/helpers";
-import { solution, title } from "../shared/output";
-
 import chalk from "chalk";
+import { hrtime } from "process";
+import { additionReducer } from "../shared/helpers";
+import { solution, title } from "../shared/output";
+import { BingoBoard, input } from "./data";
 
+const start = hrtime();
 title(4, 2);
 
-const { boards, numbers } = input;
+const { boards, draw } = input;
 
 const renderBoard = (board: BingoBoard, picked: number[]): void => {
   board.forEach((row) => {
@@ -69,6 +70,6 @@ const drawNumbers = (input: number[], boards: BingoBoard[]): number => {
   }
 };
 
-const score = drawNumbers(numbers, boards);
+const score = drawNumbers(draw, boards);
 
-solution(score);
+solution(score, hrtime(start));

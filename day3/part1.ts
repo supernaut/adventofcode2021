@@ -1,7 +1,8 @@
+import { hrtime } from "process";
 import { solution, title } from "../shared/output";
-
 import { input } from "./data";
 
+const start = hrtime();
 title(3, 1);
 
 const values: number[] = [];
@@ -25,4 +26,4 @@ const epsilon = ~gamma + Math.pow(2, binary.length);
 
 // Multiply values in output
 
-solution(gamma * epsilon);
+solution(gamma * epsilon, hrtime(start));

@@ -1,7 +1,9 @@
 import chalk from "chalk";
 
-export const title = (day: number, part: number) => {
-  console.clear();
+export const title = (day: number, part: number, clear = true) => {
+  if (clear) {
+    console.clear();
+  }
   console.log(
     chalk.green.bold("🎄 Advent of Code 2021 - Day %s, Part %s 🎄"),
     day,
@@ -10,7 +12,7 @@ export const title = (day: number, part: number) => {
   console.log("");
 };
 
-export const solution = (
+export const summary = (
   solution: string | number,
   time?: [seconds: number, nanoseconds: number]
 ) => {

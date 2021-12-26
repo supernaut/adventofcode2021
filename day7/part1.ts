@@ -1,6 +1,6 @@
 import { hrtime } from "process";
 import { additionReducer } from "../shared/helpers";
-import { solution, title } from "../shared/output";
+import { summary, title } from "../shared/output";
 import { input as data } from "./data";
 
 const start = hrtime();
@@ -11,6 +11,7 @@ const solve = (target: number, values: number[]) =>
 
 const output = [...new Set(data)].map((value) => solve(value, data));
 output.sort((a, b) => a - b);
-const fuel = output.shift() || 0;
 
-solution(fuel, hrtime(start));
+const solution = output.shift() || 0;
+
+summary(solution, hrtime(start));

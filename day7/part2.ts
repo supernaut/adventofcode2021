@@ -1,6 +1,6 @@
 import { hrtime } from "process";
 import { additionReducer } from "../shared/helpers";
-import { solution, title } from "../shared/output";
+import { summary, title } from "../shared/output";
 import { input as data } from "./data";
 
 const start = hrtime();
@@ -18,13 +18,13 @@ const solve = (target: number, values: number[]) =>
     .map((value) => triangle(Math.abs(target - value)))
     .reduce(additionReducer);
 
-let cost = 0;
+let solution = 0;
 
 for (let i = 0; i <= high; i += 1) {
   const value = solve(i, data);
-  if (!cost || value < cost) {
-    cost = value;
+  if (!solution || value < solution) {
+    solution = value;
   }
 }
 
-solution(cost, hrtime(start));
+summary(solution, hrtime(start));

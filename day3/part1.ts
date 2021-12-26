@@ -1,5 +1,5 @@
 import { hrtime } from "process";
-import { solution, title } from "../shared/output";
+import { summary, title } from "../shared/output";
 import { input } from "./data";
 
 const start = hrtime();
@@ -25,5 +25,6 @@ const gamma = parseInt(binary, 2);
 const epsilon = ~gamma + Math.pow(2, binary.length);
 
 // Multiply values in output
+const solution = gamma * epsilon;
 
-solution(gamma * epsilon, hrtime(start));
+summary(solution, hrtime(start));

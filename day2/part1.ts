@@ -1,7 +1,6 @@
-import { solution, title } from "../shared/output";
-
-import { input as data } from "./data";
 import { hrtime } from "process";
+import { summary, title } from "../shared/output";
+import { input as data } from "./data";
 
 const start = hrtime();
 
@@ -26,4 +25,6 @@ data.forEach(([direction, value]) => {
   }
 });
 
-solution(position.horizontal * position.depth, hrtime(start));
+const solution = position.horizontal * position.depth;
+
+summary(solution, hrtime(start));

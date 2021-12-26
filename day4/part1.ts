@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { hrtime } from "process";
 import { additionReducer } from "../shared/helpers";
-import { solution, title } from "../shared/output";
+import { summary, title } from "../shared/output";
 import { BingoBoard, input } from "./data";
 
 const start = hrtime();
@@ -66,6 +66,6 @@ const drawNumbers = (input: number[], boards: BingoBoard[]): number => {
   return score;
 };
 
-const score = drawNumbers(draw, boards);
+const solution = drawNumbers(draw, boards);
 
-solution(score, hrtime(start));
+summary(solution, hrtime(start));

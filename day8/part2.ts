@@ -12,53 +12,44 @@ import { Entry, input as data } from "./data";
 const start = hrtime();
 title(8, 2);
 
+const getUniqueLengthValue = (input: string[], length: number): string =>
+  sort(input.find((value) => value.length === length) || "");
+
 const solveEntry = (entry: Entry) => {
   const { patterns, output } = entry;
-  // Set up maps for storing intermediates
-  const places: Map<string, string> = new Map();
-  const values: Map<number, string> = new Map();
-
-  // Store already known values
-  values.set(1, sort(patterns.find((value) => value.length === 2) || ""));
-  values.set(4, sort(patterns.find((value) => value.length === 4) || ""));
-  values.set(7, sort(patterns.find((value) => value.length === 3) || ""));
-  values.set(8, sort(patterns.find((value) => value.length === 7) || ""));
+  // Set up map for storing values and populate with known values
+  const values: Map<number, string> = new Map([
+    [1, getUniqueLengthValue(patterns, 2)],
+    [4, getUniqueLengthValue(patterns, 4)],
+    [7, getUniqueLengthValue(patterns, 3)],
+    [8, getUniqueLengthValue(patterns, 7)],
+  ]);
 
   // Deduce positions
+  const findOne = (input: string[]): string =>
+    input.find((value) => value.length === 1) || "";
+  const findTwo = (input: string[], exclude: string): string =>
+    stringDifference(
+      input.find((value) => value.length === 2),
+      exclude
+    );
+
   const fiveLong = patterns.filter((value) => value.length === 5);
-  const sixLong = patterns.filter((value) => value.length === 6);
-  const merge47 = mergeStrings(values.get(4) || "", values.get(7) || "");
+  const merge4and7 = mergeStrings(values.get(4) || "", values.get(7) || "");
   const a = stringDifference(values.get(7) || "", values.get(1) || "");
-  const eg = fiveLong.map((value) => stringDifference(value, merge47));
-  const g = eg.find((value) => value.length === 1) || "";
-  const e = stringDifference(
-    eg.find((value) => value.length === 2),
-    g
-  );
+  const eg = fiveLong.map((value) => stringDifference(value, merge4and7));
+  const g = findOne(eg);
+  const e = findTwo(eg, g);
   const bd = fiveLong.map((value) =>
     stringDifference(value, (values.get(7) || "") + e + g)
   );
-  const d = bd.find((value) => value.length === 1) || "";
-  const b = stringDifference(
-    bd.find((value) => value.length === 2),
-    d
-  );
-  const cf = sixLong.map((value) => stringDifference(value, a + b + d + e + g));
-  const f = cf.find((value) => value.length === 1) || "";
-  const c =
-    stringDifference(
-      cf.find((value) => value.length === 2),
-      f
-    ) || "";
-
-  // Set places
-  places.set("a", a);
-  places.set("b", b);
-  places.set("c", c);
-  places.set("d", d);
-  places.set("e", e);
-  places.set("f", f);
-  places.set("g", g);
+  const d = findOne(bd);
+  const b = findTwo(bd, d);
+  const cf = patterns
+    .filter((value) => value.length === 6)
+    .map((value) => stringDifference(value, a + b + d + e + g));
+  const f = findOne(cf);
+  const c = findTwo(cf, f);
 
   // Deduce and set values
   values.set(0, sort(a + b + c + e + f + g));

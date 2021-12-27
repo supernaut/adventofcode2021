@@ -9,10 +9,12 @@ export const stringIntersection = (input1 = "", input2 = "") =>
   intersection([...input1], [...input2]).join("");
 
 export const difference = (array1: string[], array2: string[]): string[] =>
-  array1.filter((value) => !array2.includes(value));
+  array1.filter((value) => !array2.includes(value)).filter(nullFilter);
 
 export const stringDifference = (input1 = "", input2 = "") =>
-  difference([...input1], [...input2]).join("");
+  difference([...input1], [...input2])
+    .filter(nullFilter)
+    .join("");
 
 export const symmetricalDifference = (
   array1: string[],
@@ -24,3 +26,20 @@ export const symmetricalDifference = (
 
 export const stringSymmetricalDifference = (input1 = "", input2 = "") =>
   symmetricalDifference([...input1], [...input2]).join("");
+
+export const merge = (input1: string[], input2: string[]): string[] =>
+  [...new Set([...input1, ...input2])].filter(nullFilter) as string[];
+
+export const mergeStrings = (input1: string, input2: string) =>
+  merge(input1.split(""), input2.split("")).join("");
+
+export const sort = (input: string): string => [...input].sort().join("");
+
+export const getByValue = <T = number>(
+  map: Map<T, string>,
+  searchValue: string
+): T | undefined => {
+  for (const [key, value] of map.entries()) {
+    if (value === searchValue) return key;
+  }
+};

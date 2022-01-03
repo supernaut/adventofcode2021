@@ -1,11 +1,5 @@
 export const nullFilter = (value: any): boolean => !!value;
 
-export const uniqueFilter = (
-  value: any,
-  index: number,
-  array: Array<any>
-): boolean => array.indexOf(value) === index;
-
 export const additionReducer = (a: number, b: number): number => a + b;
 
 export const intersection = (array1: string[], array2: string[]): string[] =>

@@ -20,21 +20,18 @@ const solve = (input: Array<string>): number => {
     .map((value) => {
       let score = 0;
       [...value].reverse().forEach((char) => {
+        score *= 5;
         switch (char) {
           case "(":
-            score *= 5;
             score += 1;
             return ")";
           case "[":
-            score *= 5;
             score += 2;
             return "]";
           case "{":
-            score *= 5;
             score += 3;
             return "}";
           case "<":
-            score *= 5;
             score += 4;
             return ">";
         }
